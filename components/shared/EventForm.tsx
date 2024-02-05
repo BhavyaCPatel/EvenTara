@@ -19,7 +19,9 @@ import { AiOutlineLink } from "react-icons/ai";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import { useUploadThing } from '@/lib/uploadthing';
+import { useRouter } from 'next/navigation';
+import { createEvent } from '@/lib/actions/event.actions';
 
 type EventFormProps = {
     userId: string;
@@ -29,14 +31,43 @@ const EventForm = ({ userId, type }: EventFormProps) => {
 
     const initialValues = eventDefaultValues
     const [files, setFiles] = useState<File[]>([])
+    const router = useRouter();
+
+    const { startUpload } = useUploadThing('imageUploader');
 
     const form = useForm<z.infer<typeof eventFormSchema>>({
         resolver: zodResolver(eventFormSchema),
         defaultValues: initialValues,
     })
 
-    function onSubmit(values: z.infer<typeof eventFormSchema>) {
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof eventFormSchema>) {
+        let uploadedImgUrl = values.imageUrl;
+
+        if (files.length>0){
+            const uploadedImages = await startUpload(files)
+            if(!uploadedImages){
+                return
+            }else{
+                uploadedImgUrl = uploadedImages[0].url
+            }
+        }
+
+        if(type === 'Create'){
+            try {
+                const newEvent = await createEvent({
+                    event: {...values, imageUrl: uploadedImgUrl},
+                    userId,
+                    path:'/profile'
+                })
+
+                if(newEvent){
+                    form.reset();
+                    router.push(`/event/${newEvent._id}`)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
     return (
         <Form {...form}>
@@ -167,7 +198,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                                 <FormControl>
                                     <div className='flex-center h-55 w-full overflow-hidden rounded-full bg-grey-50 px-4 py-1'>
                                         <FaIndianRupeeSign className='filter-grey w-5 h-5' />
-                                        <Input type='number' placeholder='Price' {...field} className='p-regular-16 bg-grey-50 border-0 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0' />
+                                        <Input type='number' placeholder='Price' {...field} className='p-regular-16 bg-grey-50 h-[54px] border-0 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0' />
                                         <FormField
                                             control={form.control}
                                             name="isFree"
@@ -176,7 +207,11 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                                                     <FormControl>
                                                         <div className='flex items-center'>
                                                             <label htmlFor='isFree' className='whitespace-nowrap pr-3 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>Free Ticket</label>
-                                                            <Checkbox id='isFree' className='mr-2 h-5 w-5 border-2 border-black' />
+                                                            <Checkbox 
+                                                                onCheckedChange={field.onChange} 
+                                                                checked={field.value}
+                                                                id='isFree' 
+                                                                className='mr-2 h-5 w-5 border-2 border-black' />
                                                         </div>
                                                     </FormControl>
                                                     <FormMessage />
@@ -206,7 +241,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                     />
                 </div>
                 <Button type="submit" size={'lg'} disabled={form.formState.isSubmitting} className='button col-span-2 w-full'>
-                    {form.formState.isSubmitting? ('Submiting..'): `${type} Event`}
+                    {form.formState.isSubmitting? ('Submiting...'): `${type} Event`}
                 </Button>
             </form>
         </Form>
