@@ -26,6 +26,7 @@ const Checkout = ({ event, userId }: { event: IEvent, userId: string }) => {
             price: event.price,
             isFree: event.isFree,
             buyerId: userId,
+            name: event.organizer.firstName + ' ' + event.organizer.lastName
         }
         await checkoutOrder(order)
     }
