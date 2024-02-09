@@ -32,9 +32,9 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
             ],
             customer_email: order.email,  
             billing_address_collection: 'required',
-            shipping_address_collection: {
-                allowed_countries: ['IN']
-            },
+            // shipping_address_collection: {
+            //     allowed_countries: ['IN']
+            // },
             metadata: {
                 eventId: order.eventId,
                 buyerId: order.buyerId,
