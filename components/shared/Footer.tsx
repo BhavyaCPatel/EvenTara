@@ -14,7 +14,7 @@ const Footer = () => {
                         height={38}
                     ></Image>
                 </Link>
-                <p className='text-slate-600'>2023 EvenTara. All Rights Reserved.</p>
+                <p className='text-slate-600'>2024 EvenTara. All Rights Reserved.</p>
             </div>
         </footer>
     )
