@@ -12,6 +12,7 @@ export interface IOrder extends Document {
         _id: string
         firstName: string
         lastName: string
+        email: string
     }
 }
 
@@ -44,6 +45,9 @@ const OrderSchema = new Schema({
     buyer: {
         type: Schema.Types.ObjectId,
         ref: 'User',
+    },
+    email: { 
+        type: String,
     },
 })
 
