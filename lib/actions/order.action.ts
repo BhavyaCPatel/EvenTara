@@ -13,7 +13,7 @@ import User from '../database/models/user.model';
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
-    const price = order.isFree ? 0 : Number(order.price) * 100;
+    const price = order.isFree ? 0 : Number(order.price)*100;
 
     try {
         const session = await stripe.checkout.sessions.create({
@@ -32,9 +32,6 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
             ],
             customer_email: order.email,  
             billing_address_collection: 'required',
-            // shipping_address_collection: {
-            //     allowed_countries: ['IN']
-            // },
             metadata: {
                 eventId: order.eventId,
                 buyerId: order.buyerId,
@@ -43,7 +40,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
             success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/profile`,
             cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
         });
-
+    
         redirect(session.url!)
     } catch (error) {
         throw error;
