@@ -105,7 +105,6 @@ export type CreateCategoryParams = {
 
 // ====== ORDER PARAMS
 export type CheckoutOrderParams = {
-    email: string
     eventTitle: string
     eventId: string
     price: string

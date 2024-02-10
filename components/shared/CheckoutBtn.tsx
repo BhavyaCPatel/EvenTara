@@ -9,8 +9,9 @@ import Checkout from './Checkout';
 
 const CheckoutBtn = ({ event }: { event: IEvent }) => {
 
-    const {user} = useUser();
+    const { user } = useUser();
     const userId = user?.publicMetadata.userId as string;
+    console.log(userId);
 
     const hasEventClosed = new Date(event.endDateTime) < new Date();
 
