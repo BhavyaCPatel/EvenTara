@@ -8,6 +8,7 @@ import Image from 'next/image';
 import React from 'react'
 import { FaCalendar } from 'react-icons/fa';
 import { IoLocation } from 'react-icons/io5';
+import { auth } from '@clerk/nextjs';
 
 const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) => {
     const event = await getEventById(id);
@@ -16,6 +17,9 @@ const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) 
         eventId: event._id,
         page: searchParams.page as string,
     })
+    const { sessionClaims } = auth();
+    const userId = sessionClaims?.userId as string;
+    const isEventCreator = userId === event.organizer._id.toString();
 
     return (
         <>
@@ -46,7 +50,7 @@ const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) 
                                 </div>
                             </div>
                         </div>
-                        <CheckoutBtn event={event}/>
+                        {!isEventCreator && (<CheckoutBtn event={event}/>)}
                         <div className="flex flex-col gap-5">
                             <div className="flex gap-2 md:gap-3">
                                 <FaCalendar className='text-zinc-400 w-7 h-7 mt-[8px]' />
