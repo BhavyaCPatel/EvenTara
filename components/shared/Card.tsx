@@ -6,7 +6,6 @@ import Link from 'next/link'
 import React from 'react'
 import { auth } from '@clerk/nextjs';
 import { DeleteConfirmation } from './DeleteConfirmation';
-import { FaArrowRightArrowLeft } from 'react-icons/fa6';
 
 type CardProps = {
     event: IEvent,

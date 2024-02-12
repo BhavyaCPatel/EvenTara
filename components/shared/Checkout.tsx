@@ -3,7 +3,7 @@ import { loadStripe } from '@stripe/stripe-js';
 
 import { IEvent } from '@/lib/database/models/event.model';
 import { Button } from '../ui/button';
-import { checkoutOrder } from '@/lib/actions/order.action';
+import { checkoutOrder } from '@/lib/actions/order.actions';
 
 loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -28,8 +28,8 @@ const Checkout = ({ event, userId }: { event: IEvent, userId: string }) => {
             isFree: event.isFree,
             buyerId: userId
         }
-        console.log(order);
-        // await checkoutOrder(order);
+        console.log('order', order);
+        await checkoutOrder(order);
     }
 
     return (

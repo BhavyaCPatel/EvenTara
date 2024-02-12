@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { getAllEvents, getEventById, getRelatedEventsByCategory } from '@/lib/actions/event.actions'
 import { formatDateTime } from '@/lib/utils';
 import { SearchParamProps } from '@/types'
-import events from 'events';
 import Image from 'next/image';
 import React from 'react'
 import { FaCalendar } from 'react-icons/fa';
