@@ -55,7 +55,7 @@ export default async function Home() {
             collectionType="All_Events"
             limit={6}
             page={1}
-            totalPage={2}
+            totalPages={2}
           />
         </div>
       </section>
