@@ -3,12 +3,19 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Collection from "@/components/shared/Collection";
 import { getAllEvents } from "@/lib/actions/event.actions";
-export default async function Home() {
+import Search from "@/components/shared/Search";
+import { SearchParamProps } from "@/types";
+import CategoryFilter from "@/components/shared/CategoryFilter";
+export default async function Home({ searchParams } : SearchParamProps) {
+
+  const page = Number(searchParams?.page) || 1;
+  const searchText = (searchParams?.query as string) || '';
+  const category = (searchParams?.category as string) || '';
 
   const events = await getAllEvents({
-    query:'',
-    category:'',
-    page: 1,
+    query: searchText,
+    category,
+    page,
     limit: 6
   })
 
@@ -44,8 +51,8 @@ export default async function Home() {
           Trusted By <br/> Thousands Of Events.
         </h2>
         <div className="flex w-full flex-col pl-2 gap-5 md:flex-row">
-          Search
-          Category
+          <Search/>
+          <CategoryFilter/>
         </div>
         <div className="pl-2">
           <Collection
@@ -54,8 +61,8 @@ export default async function Home() {
             emptyStateSubtext="Come Back Later"
             collectionType="All_Events"
             limit={6}
-            page={1}
-            totalPages={2}
+            page={page}
+            totalPages={events?.totalPages}
           />
         </div>
       </section>

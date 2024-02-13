@@ -18,19 +18,19 @@ const Orders = async ({ searchParams }: SearchParamProps) => {
                 </h3>
             </section>
 
-            <section className="wrapper mt-8">
+            <section className="wrapper mt-8 loc">
                 <Search placeholder="Search buyer name..." />
             </section>
 
-            <section className="wrapper overflow-x-auto">
+            <section className="wrapper tab overflow-x-auto">
                 <table className="w-full border-collapse border-t">
                     <thead>
                         <tr className="p-medium-14 border-b text-grey-500">
-                            <th className="min-w-[250px] py-3 text-left">Order ID</th>
-                            <th className="min-w-[200px] flex-1 py-3 pr-4 text-left">Event Title</th>
-                            <th className="min-w-[150px] py-3 text-left">Buyer</th>
-                            <th className="min-w-[100px] py-3 text-left">Created</th>
-                            <th className="min-w-[100px] py-3 text-right">Amount</th>
+                            <th className="min-w-[250px] py-3 px-2 text-left">Order ID</th>
+                            <th className="min-w-[200px] flex-1 py-3 px-2 text-left">Event Title</th>
+                            <th className="min-w-[150px] py-3 px-2 text-left">Buyer</th>
+                            <th className="min-w-[100px] py-3 px-2 text-left">Created</th>
+                            <th className="min-w-[100px] py-3 px-2 text-right">Amount</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,15 +46,15 @@ const Orders = async ({ searchParams }: SearchParamProps) => {
                                     orders.map((row: IOrderItem) => (
                                         <tr
                                             key={row._id}
-                                            className="p-regular-14 lg:p-regular-16 border-b "
+                                            className="p-regular-14 lg:p-regular-16 border-b"
                                             style={{ boxSizing: 'border-box' }}>
-                                            <td className="min-w-[250px] py-4 text-primary-500">{row._id}</td>
+                                            <td className="min-w-[250px] py-4 px-2 text-primary-500">{row._id}</td>
                                             <td className="min-w-[200px] flex-1 py-4 pr-4">{row.eventTitle}</td>
-                                            <td className="min-w-[150px] py-4">{row.buyer}</td>
-                                            <td className="min-w-[100px] py-4">
+                                            <td className="min-w-[150px] py-4 px-2">{row.buyer}</td>
+                                            <td className="min-w-[100px] py-4 px-2">
                                                 {formatDateTime(row.createdAt).dateTime}
                                             </td>
-                                            <td className="min-w-[100px] py-4 text-right">
+                                            <td className="min-w-[100px] py-4 px-2 text-right">
                                                 {formatPrice(row.totalAmount)}
                                             </td>
                                         </tr>

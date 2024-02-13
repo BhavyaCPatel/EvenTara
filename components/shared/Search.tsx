@@ -1,6 +1,6 @@
 "use client"
 
-import Image from 'next/image';
+import { IoIosSearch } from "react-icons/io";
 import { useEffect, useState } from 'react'
 import { Input } from '../ui/input';
 import { formUrlQuery, removeKeysFromQuery } from '@/lib/utils';
@@ -35,8 +35,8 @@ const Search = ({ placeholder = 'Search title...' }: { placeholder?: string }) =
     }, [query, searchParams, router])
 
     return (
-        <div className="flex-center min-h-[54px] overflow-hidden rounded-full bg-grey-50 px-4 py-2">
-            <Image src="/assets/icons/search.svg" alt="search" width={24} height={24} />
+        <div className="flex-center w-full min-h-[54px] overflow-hidden rounded-full bg-grey-50 px-4 py-2">
+            <IoIosSearch className="filter-grey w-7 h-7"/>
             <Input
                 type="text"
                 placeholder={placeholder}
