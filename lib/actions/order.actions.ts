@@ -102,6 +102,7 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
                     buyer: {
                         $concat: ['$buyer.firstName', ' ', '$buyer.lastName'],
                     },
+                    email: '$buyer.email',
                 },
             },
             {

@@ -9,7 +9,7 @@ const Orders = async ({ searchParams }: SearchParamProps) => {
     const searchText = (searchParams?.query as string) || ''
 
     const orders = await getOrdersByEvent({ eventId, searchString: searchText })
-
+    console.log(orders)
     return (
         <>
             <section className=" bg-primary-50 bg-dotted-pattern bg-cover bg-center py-5 md:py-10">
@@ -26,11 +26,11 @@ const Orders = async ({ searchParams }: SearchParamProps) => {
                 <table className="w-full border-collapse border-t">
                     <thead>
                         <tr className="p-medium-14 border-b text-grey-500">
-                            <th className="min-w-[250px] py-3 px-2 text-left">Order ID</th>
-                            <th className="min-w-[200px] flex-1 py-3 px-2 text-left">Event Title</th>
-                            <th className="min-w-[150px] py-3 px-2 text-left">Buyer</th>
-                            <th className="min-w-[100px] py-3 px-2 text-left">Created</th>
-                            <th className="min-w-[100px] py-3 px-2 text-right">Amount</th>
+                            <th className="min-w-[250px] py-3 px-2 text-center">Order ID</th>
+                            <th className="min-w-[200px] flex-1 py-3 px-2 text-center">Event Title</th>
+                            <th className="min-w-[150px] py-3 px-2 text-center">Buyer</th>
+                            <th className="min-w-[100px] py-3 px-2 text-center">Created</th>
+                            <th className="min-w-[100px] py-3 px-2 text-center">Amount</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,13 +48,15 @@ const Orders = async ({ searchParams }: SearchParamProps) => {
                                             key={row._id}
                                             className="p-regular-14 lg:p-regular-16 border-b"
                                             style={{ boxSizing: 'border-box' }}>
-                                            <td className="min-w-[250px] py-4 px-2 text-primary-500">{row._id}</td>
-                                            <td className="min-w-[200px] flex-1 py-4 pr-4">{row.eventTitle}</td>
-                                            <td className="min-w-[150px] py-4 px-2">{row.buyer}</td>
-                                            <td className="min-w-[100px] py-4 px-2">
+                                            <td className="min-w-[250px] text-center py-4 px-2 text-primary-500">{row._id}</td>
+                                            <td className="min-w-[200px] text-center flex-1 py-4 pr-4">{row.eventTitle}</td>
+                                            <td className="min-w-[200px] text-center py-4 px-2">{row.buyer} <br /> 
+                                                <span className='text-primary-500 font-light'>{row.email}</span> 
+                                            </td>
+                                            <td className="min-w-[100px] text-center py-4 px-2">
                                                 {formatDateTime(row.createdAt).dateTime}
                                             </td>
-                                            <td className="min-w-[100px] py-4 px-2 text-right">
+                                            <td className="min-w-[100px] text-center py-4 px-2">
                                                 {formatPrice(row.totalAmount)}
                                             </td>
                                         </tr>
