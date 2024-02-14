@@ -52,6 +52,7 @@ export const createOrder = async (order: CreateOrderParams) => {
             ...order,
             event: order.eventId,
             buyer: order.buyerId,
+            email: order.email,
         });
 
         return JSON.parse(JSON.stringify(newOrder));

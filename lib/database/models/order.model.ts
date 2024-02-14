@@ -45,6 +45,9 @@ const OrderSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
+    email: {
+        type: String,
+    },
 })
 
 const Order = models.Order || model('Order', OrderSchema)
