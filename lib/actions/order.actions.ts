@@ -17,13 +17,15 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
 
     try {
         const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
             line_items: [
                 {
                     price_data: {
                         currency: 'inr',
                         unit_amount: price,
                         product_data: {
-                            name: order.eventTitle
+                            name: order.eventTitle,
+                            description: "For testing please use this card no.4000003560000123 and country as India"
                         }
                     },
                     quantity: 1
