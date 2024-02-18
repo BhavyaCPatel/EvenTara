@@ -7,6 +7,7 @@ export interface IOrder extends Document {
     event: {
         _id: string
         title: string
+        endDateTime: Date
     }
     buyer: {
         _id: string
