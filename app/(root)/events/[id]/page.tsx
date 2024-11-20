@@ -25,12 +25,16 @@ const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) 
         <>
             <section className="flex justify-center bg-primary-50 bg-dotted-pattern bg-contain">
                 <div className="grid grid-cols-1 md:grid-cols-2 2xl:max-w-7xl">
-                    <Image src={event.imageUrl}
-                        alt={event.title}
-                        width={1000}
-                        height={1000}
-                        className='h-full min-h-[300px] object-cover object-center'
-                    />
+                    <div className="relative w-full h-64 md:h-auto">
+                        <Image
+                            src={event.imageUrl}
+                            alt={event.title}
+                            layout="fill"
+                            objectFit="cover"
+                            objectPosition="center"
+                            className=""
+                        />
+                    </div>
 
                     <div className="flex w-full flex-col gap-8 p-5 md:p-10">
                         <div className="flex flex-col gap-6">
@@ -50,7 +54,7 @@ const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) 
                                 </div>
                             </div>
                         </div>
-                        {!isEventCreator && (<CheckoutBtn event={event}/>)}
+                        {!isEventCreator && (<CheckoutBtn event={event} />)}
                         <div className="flex flex-col gap-5">
                             <div className="flex gap-2 md:gap-3">
                                 <FaCalendar className='text-zinc-400 w-7 h-7 mt-[8px]' />
