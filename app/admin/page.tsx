@@ -32,31 +32,36 @@ const AdminPage = () => {
     const user = { email: 'bhavyaaes@gmail.com' }; // Replace with actual user authentication logic
 
     if (user.email !== 'bhavyaaes@gmail.com') {
-        return <p>Access Denied</p>;
+        return <p className="text-red-500 text-center mt-4">Access Denied</p>;
     }
 
     return (
-        <div>
-            <h1>Admin Page</h1>
-            <table>
+        <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-bold mb-4 text-center">Admin Page</h1>
+            <table className="min-w-full bg-white border border-gray-200 mt-5">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Approve</th>
+                        <th className="py-2 px-4 border-b">Title</th>
+                        <th className="py-2 px-4 border-b">Description</th>
+                        <th className="py-2 px-4 border-b">Location</th>
+                        <th className="py-2 px-4 border-b">Organizer</th>
+                        <th className="py-2 px-4 border-b">Status</th>
+                        <th className="py-2 px-4 border-b">Approve</th>
                     </tr>
                 </thead>
                 <tbody>
                     {events?.data.filter(event => event.status === 'pending').map(event => (
-                        <tr key={event._id}>
-                            <td>{event.title}</td>
-                            <td>{event.description}</td>
-                            <td>{event.status}</td>
-                            <td>
+                        <tr key={event._id} className="hover:bg-gray-100">
+                            <td className="py-2 px-4 border-b text-center">{event.title}</td>
+                            <td className="py-2 px-4 border-b text-center">{event.description}</td>
+                            <td className="py-2 px-4 border-b text-center">{event.location}</td>
+                            <td className="py-2 px-4 border-b text-center">{event.organizer.firstName}</td>
+                            <td className="py-2 px-4 border-b text-center">{event.status}</td>
+                            <td className="py-2 px-4 border-b text-center">
                                 {event.status === 'pending' && (
                                     <input
                                         type="checkbox"
+                                        className="form-checkbox h-5 w-5 text-green-600"
                                         onChange={() => handleApprove(event._id)}
                                     />
                                 )}
