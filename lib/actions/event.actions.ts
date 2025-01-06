@@ -95,17 +95,19 @@ export async function deleteEvent({ eventId, path }: DeleteEventParams) {
 }
 
 // GET ALL EVENTS
-export async function getAllEvents({ query, limit = 6, page, category }: GetAllEventsParams) {
+export async function getAllEvents({ query, limit = 6, page, category, status }: GetAllEventsParams) {
     try {
         await connectToDatabase()
 
         const titleCondition = query ? { title: { $regex: query, $options: 'i' } } : {}
         const categoryCondition = category ? await getCategoryByName(category) : null
+        const statusCondition = status ? { status } : {}
         const conditions = {
             $and: [
-            titleCondition,
-            categoryCondition ? { category: categoryCondition._id } : {},
-            { endDateTime: { $gt: new Date() } }
+                titleCondition,
+                categoryCondition ? { category: categoryCondition._id } : {},
+                statusCondition,
+                { endDateTime: { $gt: new Date() } }
             ],
         }
 
@@ -113,7 +115,7 @@ export async function getAllEvents({ query, limit = 6, page, category }: GetAllE
         const eventsQuery = Event.find(conditions)
             .sort({ createdAt: 'desc' })
             .skip(skipAmount)
-            .limit(limit) 
+            .limit(limit)
 
         const events = await populateEvent(eventsQuery)
         const eventsCount = await Event.countDocuments(conditions)
@@ -173,5 +175,26 @@ export async function getRelatedEventsByCategory({
         return { data: JSON.parse(JSON.stringify(events)), totalPages: Math.ceil(eventsCount / limit) }
     } catch (error) {
         handleError(error)
+    }
+}
+
+// APPROVE/REJECT EVENT BY ADMIN
+export async function updateEventStatusByAdmin(eventId: string, status: string) {
+    try {
+        await connectToDatabase();
+
+        const updatedEvent = await Event.findByIdAndUpdate(
+            eventId,
+            { status },
+            { new: true }
+        );
+
+        if (!updatedEvent) {
+            throw new Error("Event not found");
+        }
+
+        return JSON.parse(JSON.stringify(updatedEvent));
+    } catch (error) {
+        handleError(error);
     }
 }
