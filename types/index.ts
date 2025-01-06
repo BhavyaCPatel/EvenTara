@@ -29,6 +29,7 @@ export type CreateEventParams = {
         price: string
         isFree: boolean
         url: string
+        status:  "pending" | "approved"
     }
     path: string
 }
@@ -61,6 +62,7 @@ export type GetAllEventsParams = {
     category: string
     limit: number
     page: number
+    status?:  "pending" | "approved"
 }
 
 export type GetEventsByUserParams = {
