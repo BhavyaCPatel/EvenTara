@@ -4,6 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { IEvent } from '@/lib/database/models/event.model';
 import { Button } from '../ui/button';
 import { checkoutOrder } from '@/lib/actions/order.actions';
+import { sendEmail } from './SendEmail';
 
 loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -29,6 +30,16 @@ const Checkout = ({ event, userId }: { event: IEvent, userId: string }) => {
             buyerId: userId
         }
         await checkoutOrder(order);
+        try {
+            await sendEmail({
+                to: 'buyername@gmail.com',
+                subject: 'Order Confirmation',
+                text: `Thank you for your order! You will receive an email confirmation shortly.`,
+            })
+        } catch (error) {
+            
+        }
+        
     }
 
     return (

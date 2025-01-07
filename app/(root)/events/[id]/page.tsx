@@ -78,7 +78,7 @@ const EventDetails = async ({ params: { id }, searchParams }: SearchParamProps) 
                         <div className="flex flex-col gap-2">
                             <p className="p-bold-20 text-grey-600">What will you learn?</p>
                             <p className="p-medium-16 lg:p-regular-18">{event.description}</p>
-                            <a className="p-medium-16 lg:p-regular-18 truncate" href={event.url} >For more information visit: <span className="text-primary-500 underline">{event.url}</span> </a>
+                            <a className="p-medium-16 lg:p-regular-18 truncate" href={event.url} target='blank' >For more information visit: <span className="text-primary-500 underline">{event.url}</span> </a>
                         </div>
                     </div>
                 </div>

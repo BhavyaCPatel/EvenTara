@@ -139,7 +139,7 @@ export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUs
                 populate: {
                     path: 'organizer',
                     model: User,
-                    select: '_id firstName lastName',
+                    select: '_id firstName lastName email',
                 },
             })
 

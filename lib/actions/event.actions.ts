@@ -162,7 +162,7 @@ export async function getRelatedEventsByCategory({
         await connectToDatabase()
 
         const skipAmount = (Number(page) - 1) * limit
-        const conditions = { $and: [{ category: categoryId }, { _id: { $ne: eventId } }] }
+        const conditions = { $and: [{ category: categoryId }, { _id: { $ne: eventId } }, { endDateTime: { $gt: new Date() } }] }
 
         const eventsQuery = Event.find(conditions)
             .sort({ createdAt: 'desc' })

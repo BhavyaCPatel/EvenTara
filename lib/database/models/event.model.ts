@@ -14,7 +14,7 @@ export interface IEvent extends Document {
     url?: string;
     category: { _id: string, name: string }
     organizer: { _id: string, firstName: string, lastName: string }
-    status: "pending" | "approved" | "rejected";
+    status: "pending" | "approved" ;
 }
 
 const EventSchema = new Schema({
@@ -30,7 +30,7 @@ const EventSchema = new Schema({
     url: { type: String },
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
     organizer: { type: Schema.Types.ObjectId, ref: 'User' },
-    status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
+    status: { type: String, enum: ["pending", "approved"], default: "pending" },
 })
 
 const Event = models.Event || model('Event', EventSchema);
