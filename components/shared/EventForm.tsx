@@ -25,7 +25,6 @@ import { useRouter } from "next/navigation"
 import { createEvent, updateEvent } from "@/lib/actions/event.actions"
 import { IEvent } from "@/lib/database/models/event.model"
 
-
 type EventFormProps = {
     userId: string
     type: "Create" | "Update"
@@ -75,7 +74,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                 });
         
                 if (newEvent) {
-                    setShowAlert(true); // Show alert
+                    setShowAlert(true);
                     form.reset();
                     setTimeout(() => {
                         setShowAlert(false);
@@ -110,16 +109,19 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
         }
     }
 
-
     return (
-        <div>
+        <div className="relative">
             {showAlert && (
-                <Alert variant="default" className="mb-4">
-                    <AlertTitle>Event Submitted!</AlertTitle>
-                    <AlertDescription>
-                        Your event has been submitted for review. It will be on the portal within the next 24 hours.
-                    </AlertDescription>
-                </Alert>
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg">
+                        <Alert variant="default">
+                            <AlertTitle className="text-center text-2xl">Event Submitted!</AlertTitle>
+                            <AlertDescription className="text-center text-md">
+                                Your event has been submitted for review. It will be on the portal within the next 24 hours.
+                            </AlertDescription>
+                        </Alert>
+                    </div>
+                </div>
             )}
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="mx-3 flex flex-col gap-5">
