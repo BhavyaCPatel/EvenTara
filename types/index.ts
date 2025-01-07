@@ -93,6 +93,7 @@ export type Event = {
         _id: string
         firstName: string
         lastName: string
+        email: string
     }
     category: {
         _id: string

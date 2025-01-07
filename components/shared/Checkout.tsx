@@ -4,11 +4,12 @@ import { loadStripe } from '@stripe/stripe-js';
 import { IEvent } from '@/lib/database/models/event.model';
 import { Button } from '../ui/button';
 import { checkoutOrder } from '@/lib/actions/order.actions';
-import { sendEmail } from './SendEmail';
+
+
 
 loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-const Checkout = ({ event, userId }: { event: IEvent, userId: string }) => {
+const Checkout = ({ event, userId, userEmail }: { event: IEvent, userId: string, userEmail: string }) => {
     useEffect(() => {
         // Check to see if this is a redirect back from Checkout
         const query = new URLSearchParams(window.location.search);
@@ -29,18 +30,14 @@ const Checkout = ({ event, userId }: { event: IEvent, userId: string }) => {
             isFree: event.isFree,
             buyerId: userId
         }
-        await checkoutOrder(order);
+
         try {
-            await sendEmail({
-                to: 'buyername@gmail.com',
-                subject: 'Order Confirmation',
-                text: `Thank you for your order! You will receive an email confirmation shortly.`,
-            })
+            await checkoutOrder(order);
+            console.log('Purchase completed');
         } catch (error) {
-            
+            console.error('Error during checkout:', error);
         }
-        
-    }
+    };
 
     return (
         <form action={onCheckout} method="post">

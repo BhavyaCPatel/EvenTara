@@ -16,10 +16,9 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
     const eventsPage = Number(searchParams?.eventsPage) || 1;
 
     const orders = await getOrdersByUser({ userId, page: ordersPage })
-
     const orderedEvents = orders?.data
-    .filter((order: IOrder) => new Date(order.event.endDateTime) > new Date())
-    .map((order: IOrder) => order.event) || [];
+        .filter((order: IOrder) => order.event && new Date(order.event.endDateTime) > new Date())
+        .map((order: IOrder) => order.event) || [];
     const organizedEvents = await getEventsByUser({ userId, page: eventsPage })
 
     return (
@@ -27,8 +26,8 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
             {/* My Tickets */}
             <section className="bg-primary-50 bg-dotted-pattern bg-cover bg-center py-5 md:py-10">
                 <div className="wrapper flex items-center justify-center sm:justify-between">
-                    <h3 className='h3-bold text-center sm:text-left'>My Tickets</h3>
-                    <Button asChild size="lg" className="button hidden sm:flex">
+                    <h3 className='h3-bold text-center sm:text-left px-3'>My Tickets</h3>
+                    <Button asChild size="lg" className="button hidden sm:flex mx-3">
                         <Link href="/#events">
                             Explore More Events
                         </Link>
@@ -36,7 +35,7 @@ const ProfilePage = async ({ searchParams }: SearchParamProps) => {
                 </div>
             </section>
 
-            <section className="wrapper my-8">
+            <section className="wrapper my-8 px-5">
                 <Collection
                     data={orderedEvents}
                     emptyTitle="No event tickets purchased yet"

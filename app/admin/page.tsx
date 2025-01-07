@@ -13,6 +13,7 @@ const AdminPage = () => {
             const events = await getAllEvents({ query: '', limit: 6, page: 1, category: '' });
             if (events) {
                 setEvents(events);
+                
             }
         };
 
@@ -29,7 +30,9 @@ const AdminPage = () => {
         }
     };
 
-    const user = { email: 'bhavyaaes@gmail.com' }; // Replace with actual user authentication logic
+    console.log(events);
+
+    const user = { email: 'bhavyaaes@gmail.com' };
 
     if (user.email !== 'bhavyaaes@gmail.com') {
         return <p className="text-red-500 text-center mt-4">Access Denied</p>;
@@ -55,7 +58,7 @@ const AdminPage = () => {
                             <td className="py-2 px-4 border-b text-center">{event.title}</td>
                             <td className="py-2 px-4 border-b text-center">{event.description}</td>
                             <td className="py-2 px-4 border-b text-center">{event.location}</td>
-                            <td className="py-2 px-4 border-b text-center">{event.organizer.firstName}</td>
+                            <td className="py-2 px-4 border-b text-center">{event.organizer.firstName} {event.organizer.lastName} <br /> {event.organizer.email}</td>
                             <td className="py-2 px-4 border-b text-center">{event.status}</td>
                             <td className="py-2 px-4 border-b text-center">
                                 {event.status === 'pending' && (
