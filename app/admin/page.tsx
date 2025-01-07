@@ -3,22 +3,32 @@
 import { useEffect, useState } from 'react';
 import { getAllEvents, updateEventStatusByAdmin } from '@/lib/actions/event.actions';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs'
 
 const AdminPage = () => {
     const [events, setEvents] = useState<{ data: any[]; totalPages: number } | undefined>(undefined);
     const router = useRouter();
+    const { user } = useUser();
+    const userEmail = user?.primaryEmailAddress?.emailAddress as string;
 
     useEffect(() => {
         const fetchEvents = async () => {
             const events = await getAllEvents({ query: '', limit: 6, page: 1, category: '' });
             if (events) {
                 setEvents(events);
-                
             }
         };
 
         fetchEvents();
     }, []);
+
+    useEffect(() => {
+        if (userEmail !== 'bhavyaaes@gmail.com') {
+            setTimeout(() => {
+                router.push(`/`);
+            }, 1500);
+        }
+    }, [userEmail, router]);
 
     const handleApprove = async (eventId: string) => {
         await updateEventStatusByAdmin(eventId, 'approved');
@@ -30,12 +40,8 @@ const AdminPage = () => {
         }
     };
 
-    console.log(events);
-
-    const user = { email: 'bhavyaaes@gmail.com' };
-
-    if (user.email !== 'bhavyaaes@gmail.com') {
-        return <p className="text-red-500 text-center mt-4">Access Denied</p>;
+    if (userEmail !== 'bhavyaaes@gmail.com') {
+        return <h1 className="text-red-500 text-4xl font-bold text-center mt-4">Access Denied</h1>;
     }
 
     return (
