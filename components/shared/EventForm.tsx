@@ -24,6 +24,7 @@ import { Checkbox } from "../ui/checkbox"
 import { useRouter } from "next/navigation"
 import { createEvent, updateEvent } from "@/lib/actions/event.actions"
 import { IEvent } from "@/lib/database/models/event.model"
+import { sendEmail } from '@/lib/actions/sendEmail.actions';
 
 type EventFormProps = {
     userId: string
@@ -72,14 +73,28 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                     userId,
                     path: '/profile',
                 });
-        
+
                 if (newEvent) {
                     setShowAlert(true);
                     form.reset();
+                    sendEmail({
+                        to: 'official.eventara@gmail.com',
+                        subject: `New Event: ${newEvent.title}`,
+                        text: `A new event has been submitted for review. Please check the portal for more details.`,
+                        html: `<p>A new event has been submitted for review. Please check the portal for more details.</p>`,
+                    })
+                        .then(response => {
+                            if (response.success) {
+                                console.log('Email sent successfully');
+                            } else {
+                                console.error('Error sending email:', response.error);
+                            }
+                        })
+                        .catch(error => console.error('Error in sendEmail:', error));
                     setTimeout(() => {
                         setShowAlert(false);
                         router.push(`/profile`);
-                    }, 3500);
+                    }, 2500);
                 }
             } catch (error) {
                 console.error(error);
@@ -91,14 +106,14 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                 router.back();
                 return;
             }
-        
+
             try {
                 const updatedEvent = await updateEvent({
                     userId,
                     event: { ...values, imageUrl: uploadedImageUrl, _id: eventId },
-                    path: '/profile', // Add the path property
+                    path: '/profile',
                 });
-        
+
                 if (updatedEvent) {
                     form.reset();
                     router.push(`/events/${updatedEvent._id}`);

@@ -3,13 +3,21 @@
 import { useEffect, useState } from 'react';
 import { getAllEvents, updateEventStatusByAdmin } from '@/lib/actions/event.actions';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@clerk/nextjs'
+import { useUser } from '@clerk/nextjs';
 
 const AdminPage = () => {
     const [events, setEvents] = useState<{ data: any[]; totalPages: number } | undefined>(undefined);
+    const [loading, setLoading] = useState(true);
+    const [userLoading, setUserLoading] = useState(true);
     const router = useRouter();
     const { user } = useUser();
     const userEmail = user?.primaryEmailAddress?.emailAddress as string;
+
+    useEffect(() => {
+        if (user) {
+            setUserLoading(false);
+        }
+    }, [user]);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -17,18 +25,19 @@ const AdminPage = () => {
             if (events) {
                 setEvents(events);
             }
+            setLoading(false);
         };
 
         fetchEvents();
     }, []);
 
     useEffect(() => {
-        if (userEmail !== 'bhavyaaes@gmail.com') {
+        if (!userLoading && userEmail !== 'official.eventara@gmail.com') {
             setTimeout(() => {
                 router.push(`/`);
-            }, 1500);
+            }, 1000);
         }
-    }, [userEmail, router]);
+    }, [userLoading, userEmail, router]);
 
     const handleApprove = async (eventId: string) => {
         await updateEventStatusByAdmin(eventId, 'approved');
@@ -40,7 +49,15 @@ const AdminPage = () => {
         }
     };
 
-    if (userEmail !== 'bhavyaaes@gmail.com') {
+    if (userLoading || loading) {
+        return <div className="flex flex-col items-center justify-center min-h-screen py-2">
+            <div role="status">
+                <div className="loader"></div>
+            </div>
+        </div>;
+    }
+
+    if (userEmail !== 'official.eventara@gmail.com') {
         return <h1 className="text-red-500 text-4xl font-bold text-center mt-4">Access Denied</h1>;
     }
 
