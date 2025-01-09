@@ -41,9 +41,11 @@ const Checkout = ({ event, userId, userEmail }: { event: IEvent, userId: string,
 
     return (
         <form action={onCheckout} method="post">
-            <Button type="submit" role="link" size="lg" className="button sm:w-fit">
-                {event.isFree ? 'Get Ticket' : 'Buy Ticket'}
-            </Button>
+            {userEmail !== 'official.eventara@gmail.com' && (
+                <Button type="submit" role="link" size="lg" className="button sm:w-fit">
+                    {event.isFree ? 'Get Ticket' : 'Buy Ticket'}
+                </Button>
+            )}
         </form>
     )
 }

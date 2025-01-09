@@ -71,6 +71,7 @@ const AdminPage = () => {
                         <th className="py-2 px-4 border-b">Description</th>
                         <th className="py-2 px-4 border-b">Location</th>
                         <th className="py-2 px-4 border-b">Organizer</th>
+                        <th className="py-2 px-4 border-b">View</th>
                         <th className="py-2 px-4 border-b">Status</th>
                         <th className="py-2 px-4 border-b">Approve</th>
                     </tr>
@@ -82,6 +83,9 @@ const AdminPage = () => {
                             <td className="py-2 px-4 border-b text-center">{event.description}</td>
                             <td className="py-2 px-4 border-b text-center">{event.location}</td>
                             <td className="py-2 px-4 border-b text-center">{event.organizer.firstName} {event.organizer.lastName} <br /> {event.organizer.email}</td>
+                            <td className="py-2 px-4 border-b text-center">
+                                <a href={`/events/${event._id}`} className="text-blue-500">View Event</a>
+                            </td>
                             <td className="py-2 px-4 border-b text-center">{event.status}</td>
                             <td className="py-2 px-4 border-b text-center">
                                 {event.status === 'pending' && (
